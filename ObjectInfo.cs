@@ -11,26 +11,26 @@ public class ObjectInfo : MonoBehaviour
     private ResourceManager RM;
     private InputManager IM;
 
-    public bool isSelected = false;
-    public bool isPrimary = false;
+    public bool isSelected = false; //is selected?
+    public bool isPrimary = false; //is a primary unit?
     public bool isUnit; //Is the object a unit?
     public bool isPlayerObject; //Does the player own this object?
-    public bool isAlive = true;
+    public bool isAlive = true; //is currently alive?
 
     public ObjectList objectName; //The object's name
-    public string GUIname;
+    public string GUIname; //name displayed on game's GUI
 
     public float health; //The object's current health
     public float maxHealth; //The object's max health
     public float atk; //The object's physical attack
     public float def; //The object's physical defense
-    public DamageType damageType;
+    public DamageType damageType; //object's damage type
 
     public enum Ranks { None, Recruit, Elite, Boss } //All of the available ranks
 
     public Ranks rank; //Creates the rank enum for this object
 
-    public string description;
+    public string description; //object's requirements (text)
 
     void Start()
     {
@@ -63,7 +63,7 @@ public class ObjectInfo : MonoBehaviour
                 }
             }
 
-            if (isUnit)
+            if (isUnit) //if object is a unit
             {
                 NavMeshAgent agent = GetComponent<NavMeshAgent>();
                 if (agent.isActiveAndEnabled)
@@ -104,7 +104,7 @@ public class ObjectInfo : MonoBehaviour
 
                 GetComponent<Animator>().SetBool("isDead", true);
             }
-            else
+            else //if object is a building
             {
                 if(isPlayerObject && isAlive)
                 {
@@ -136,7 +136,7 @@ public class ObjectInfo : MonoBehaviour
         }
     }
 
-    private IEnumerator SpecialAbilities()
+    private IEnumerator SpecialAbilities() //unique abilities for each unit of the game, function called every sec.
     {
         while(true)
         {
@@ -231,7 +231,7 @@ public class ObjectInfo : MonoBehaviour
         }
     }
 
-    public void PlayFootstepsSound()
+    public void PlayFootstepsSound() //play random footstep sound during walking animation
     {
         AudioManager.Instance.PlayFootstepSound(transform.position);
     }

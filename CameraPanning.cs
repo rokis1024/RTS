@@ -8,7 +8,6 @@ public class CameraPanning : MonoBehaviour
 
     public float panSpeed = 5f; //How fast the player moves
     public float panDetect = 15f; //The space from the edge of the screen that the mouse will be detected
-    private float oldAltitude; //The stored altitude value for the player
     private float altitude; //The current player altitude
 
     private float moveX;
@@ -21,7 +20,6 @@ public class CameraPanning : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        oldAltitude = Terrain.activeTerrain.SampleHeight(transform.position); //Sets the player's oldAltitude to be equal to altitude
         originalRotation = transform.rotation;
     }
 
@@ -63,7 +61,7 @@ public class CameraPanning : MonoBehaviour
 
             transform.Translate(new Vector3(moveX, Input.GetAxis("Mouse ScrollWheel") * -panSpeed * 0.05f, moveZ)); //Moves the player using the above values
 
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x, 100, 900), Mathf.Clamp(transform.position.y, 60 + altitude, 75 + altitude), Mathf.Clamp(transform.position.z, 0, 850)); //Clamps the vertical movement
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, 100, 900), Mathf.Clamp(transform.position.y, 60 + altitude, 75 + altitude), Mathf.Clamp(transform.position.z, 0, 850)); //Clamps the movement
 
             //--------------------------------
             if (Input.GetMouseButton(2))
@@ -93,25 +91,4 @@ public class CameraPanning : MonoBehaviour
             }
         }
     }
-
-    //Adjusts the player height to follow the terrain. This needs to be smoothed out before it will be an effective method.
-    /*public void AltAdjust()
-    {
-        float newHeight = transform.position.y - oldAltitude; //stores the player transform's y position
-
-        Vector3 pos = transform.position; //Stores the player transform position 
-
-        pos.y = altitude; //Sets the y position value to equal the current altitude of the player
-
-        if (altitude > oldAltitude)//Is the altitude greater than the oldAltitude?
-        { 
-            pos.y += newHeight; //Subtracts the current y position value to the altitude
-        }
-        else
-        {
-            pos.y -= (newHeight - 20);
-        }
-
-        transform.position = pos; //Sets the player's transform position to the new height
-    }*/
 }

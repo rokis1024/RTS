@@ -176,30 +176,30 @@ public class Worker : MonoBehaviour
                         RM.collectedIron += heldResource;
                         if (targetNode != null)
                         {
-                            task = TaskList.Gathering; //Set the colonist to go back to gathering
-                            agent.destination = targetNode.transform.position; //Set the colonist's destination
+                            task = TaskList.Gathering; //Set the worker to go back to gathering
+                            agent.destination = targetNode.transform.position; //Set the worker's destination
                         }
                         else
                         {
                             task = TaskList.Idle;
                         }
-                        isGatherer = false; //Set the colonist to not be a gatherer
+                        isGatherer = false; //Set the worker to not be a gatherer
                     }
                     else
                     {
-                        RM.iron += heldResource; //Add the colonist's Iron to the stored Iron
+                        RM.iron += heldResource; //Add the worker's Iron to the stored Iron
                         RM.collectedIron += heldResource;
-                        heldResource = 0; //Empty the colonist's Iron storage
+                        heldResource = 0; //Empty the worker's Iron storage
                         if (targetNode != null)
                         {
-                            task = TaskList.Gathering; //Set the colonist to go back to gathering
-                            agent.destination = targetNode.transform.position; //Set the colonist's destination
+                            task = TaskList.Gathering; //Set the worker to go back to gathering
+                            agent.destination = targetNode.transform.position; //Set the worker's destination
                         }
                         else
                         {
                             task = TaskList.Idle;
                         }
-                        isGatherer = false; //Set the colonist to not be a gatherer
+                        isGatherer = false; //Set the worker to not be a gatherer
                     }
                 }
                 else if(heldResourceType == NodeManager.ResourceTypes.Gold)

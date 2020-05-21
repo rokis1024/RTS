@@ -18,11 +18,10 @@ public class BuildingManager : MonoBehaviour
     
     private void Start()
     {
-        //-----------------FACADE-----------------------------
-        buildingPlacement = GetComponent<BuildingPlacement>(); //initialize two classes
-        unitSpawning = GetComponent<UnitSpawning>();
-        //-----------------------------------------------------
-
+        //-----------------TWO CLASSES-----------------------------
+        buildingPlacement = GetComponent<BuildingPlacement>(); //initialize building placement
+        unitSpawning = GetComponent<UnitSpawning>(); //initialize units spawning
+        //---------------------------------------------------------
 
         //-------------------------------------------------------
         RM = FindObjectOfType<ResourceManager>();
@@ -31,7 +30,7 @@ public class BuildingManager : MonoBehaviour
     }
 
     //-------------------------------------------------------
-    //--------------FACADE CLASSES METHODS-------------------
+    //--------------BUILD STRUCTURES METHODS-----------------
     //-------------------------------------------------------
     public void BuildCastle()
     {
@@ -132,7 +131,7 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
-    //------------------------------------------------------
+    //------------------------------------------------------SPAWN
     public void SpawnRecruit()
     {
         unitSpawning.SpawnUnit(units[1]);
