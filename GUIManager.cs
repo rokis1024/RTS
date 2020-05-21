@@ -9,30 +9,30 @@ public class GUIManager : MonoBehaviour
     public ButtonSystem buttonSystem;
 
     private Slider UHB; //The slider object that acts as a health bar
-    private Slider CastleHP;
+    private Slider CastleHP; //castle health points
 
-    private GameObject player;
+    private BuildingManager buildingManager; //unit and building arrays
 
-    private Text unitName;
+    private Text unitName; //unit name
     private Text HealthDisp; //The unit health text object
     private Text ATKDisp; //The unit physical attack text object
     private Text DEFDisp; //The unit physical defense text object
-    private Image ATKType;
-    private Image RankType;
-    private Text FrontierCnt;
-    private Color FrontierCntTextColor;
+    private Image ATKType; //damage type display
+    private Image RankType; //rank
+    private Text FrontierCnt; //frontier tower count
+    private Color FrontierCntTextColor; //score table text color
 
-    private Image unitImage;
+    private Image unitImage; //unit image display
 
-    public Button[] buttons;
-    public Sprite[] playerUnitImages;
-    public Sprite[] playerBuildingImages;
-    public Sprite[] enemyUnitImages;
-    public Sprite[] enemyBuildingImages;
-    public Sprite[] damageTypes;
+    public Button[] buttons; //action panel buttons
+    public Sprite[] playerUnitImages; //unit icons
+    public Sprite[] playerBuildingImages; //building icons
+    public Sprite[] enemyUnitImages; //enemy unit icons
+    public Sprite[] enemyBuildingImages; //enemy building icons
+    public Sprite[] damageTypes; //damage type icons
 
-    private ObjectInfo castleInfo;
-    private InputManager IM;
+    private ObjectInfo castleInfo; //info about castle
+    private InputManager IM; //input manager
 
     // Use this for initialization
     void Start()
@@ -40,7 +40,7 @@ public class GUIManager : MonoBehaviour
         //---------------------------------Components
         IM = FindObjectOfType<InputManager>();
         buttonSystem = FindObjectOfType<ButtonSystem>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        buildingManager = FindObjectOfType<BuildingManager>();
         UHB = GameObject.Find("Health").GetComponent<Slider>(); //Assigns the UHB object
         CastleHP = GameObject.Find("CastleHealth").GetComponent<Slider>();
         unitName = GameObject.Find("UnitName").GetComponent<Text>(); //Assigns the unitNameDisp object
@@ -136,19 +136,18 @@ public class GUIManager : MonoBehaviour
                 case ObjectList.player_Worker:
                     unitImage.sprite = playerUnitImages[0];
 
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < buttons.Length; i++)
                     {
-                        buttons[i].image.enabled = true;
-                        if (i == 0 || i > 3)
+                        if (i < buildingManager.buildings.Length)
                         {
+                            buttons[i].image.enabled = true;
                             buttons[i].image.sprite = playerBuildingImages[i];
                         }
+                        else
+                        {
+                            buttons[i].image.enabled = false;
+                        }
                     }
-                    //some real spaghetti
-                    buttons[1].image.sprite = playerBuildingImages[2];//!
-                    buttons[2].image.sprite = playerBuildingImages[3];//!
-                    buttons[3].image.sprite = playerBuildingImages[1];//!
-                    buttons[8].image.enabled = false;
 
                     break;
                 case ObjectList.player_Recruit:
@@ -175,7 +174,7 @@ public class GUIManager : MonoBehaviour
         {
             if (primary.objectName != ObjectList.playerBuild_Castle)
             {
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < buttons.Length; i++)
                 {
                     if (i < 2)
                     {
@@ -194,26 +193,34 @@ public class GUIManager : MonoBehaviour
                 case ObjectList.playerBuild_Castle:
                     unitImage.sprite = playerBuildingImages[0];
 
-                    for (int i = 0; i < 6; i++)
+                    for (int i = 0; i < buttons.Length; i++)
                     {
-                        buttons[i].image.enabled = true;
-                        buttons[i].image.sprite = playerUnitImages[i];
+                        if (i < buildingManager.units.Length)
+                        {
+                            buttons[i].image.enabled = true;
+                            buttons[i].image.sprite = playerUnitImages[i];
+                        }
+                        else
+                        {
+                            if (i != 6)
+                            {
+                                buttons[i].image.enabled = false;
+                            }
+                        }
                     }
 
-                    buttons[6].image.sprite = playerBuildingImages[9];
-
-                    buttons[7].image.enabled = false;
-                    buttons[8].image.enabled = false;
+                    buttons[6].image.enabled = true;
+                    buttons[6].image.sprite = playerBuildingImages[9]; // repair button
 
                     break;
                 case ObjectList.playerBuild_Mine:
-                    unitImage.sprite = playerBuildingImages[1];
+                    unitImage.sprite = playerBuildingImages[3];
                     break;
                 case ObjectList.playerBuild_Smeltery:
-                    unitImage.sprite = playerBuildingImages[2];
+                    unitImage.sprite = playerBuildingImages[1];
                     break;
                 case ObjectList.playerBuild_Stonemason:
-                    unitImage.sprite = playerBuildingImages[3];
+                    unitImage.sprite = playerBuildingImages[2];
                     break;
                 case ObjectList.playerBuild_Farm:
                     unitImage.sprite = playerBuildingImages[4];
